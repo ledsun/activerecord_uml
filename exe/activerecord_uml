@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
 
-require 'erb'
-require 'activerecord_uml'
+require(File.join(Dir.pwd, "config/application"))
+Rails.application.require_environment!
 
+require "activerecord_uml"
 ActiverecordUml.draw
