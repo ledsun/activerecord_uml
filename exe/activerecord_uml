@@ -1,0 +1,6 @@
+#! /usr/bin/env ruby
+
+require 'erb'
+require 'activerecord_uml'
+
+ActiverecordUml.draw
