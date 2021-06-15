@@ -1,4 +1,4 @@
-require 'erb'
+require "erb"
 
 module ActiverecordUml
   class DiagramDrawer
@@ -29,9 +29,9 @@ EOF
     def relations
       @class_name.reflect_on_all_associations(:belongs_to).map do |a|
         "#{a.name.to_s.classify} --* #{@class_name}"
-      end.concat( @class_name.reflect_on_all_associations(:has_many).map do |a|
+      end.concat(@class_name.reflect_on_all_associations(:has_many).map do |a|
         "#{@class_name} --* #{a.name.to_s.classify}"
-      end).concat( @class_name.reflect_on_all_associations(:has_one).map do |a|
+      end).concat(@class_name.reflect_on_all_associations(:has_one).map do |a|
         "#{@class_name} --* #{a.name.to_s.classify}"
       end)
     end
@@ -46,8 +46,8 @@ EOF
       @class_name.public_instance_methods(false).sort.map do |m|
         method_parameters = @class_name.new.method(m)
                                        .parameters
-                                       .filter{ |a| a[0] == :req }
-                                       .map { |a| a[1]}.join(', ')
+                                       .filter { |a| a[0] == :req }
+                                       .map { |a| a[1] }.join(", ")
         [m.to_s, method_parameters]
       end
     end
