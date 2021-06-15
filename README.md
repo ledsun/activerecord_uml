@@ -29,7 +29,7 @@ Or install it yourself as:
 In your Ruby on Rails directory:
 
 ```
-activerecord_uml User
+activerecord_uml User Book Review
 ```
 
 Execute the activerecord_uml command with name of model classes.
