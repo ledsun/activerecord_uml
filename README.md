@@ -1,8 +1,6 @@
 # ActiverecordUml
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/activerecord_uml`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+ActiverecordUml draws class diagrams of ActiveRecord models.
 
 ## Installation
 
@@ -22,7 +20,29 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In your Ruby on Rails directory:
+
+```
+activerecord_uml User
+```
+
+Execute the activerecord_uml command with name of model classes.
+Then the activerecord_uml outputs HTML text includes class diagrams of specified model classes. 
+
+For MacOs, I recommend to use the activerecord_uml with [browser](https://gist.github.com/defunkt/318247) command.
+Like this:
+
+```
+$ brew install browser
+```
+
+then
+
+```
+activerecord_uml User | browser
+```
+
+Open the class diagrams with the browser immediately.
 
 ## Development
 
@@ -32,4 +52,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/activerecord_uml.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ledsun/activerecord_uml.
