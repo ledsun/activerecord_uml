@@ -2,6 +2,12 @@
 
 ActiverecordUml draws class diagrams of ActiveRecord models.
 
+We sometimes wander in the existing Ruby on Rails application.
+All models are too much to see.
+We want to select from three to seven models to see their attributes and relations.
+
+ActiverecordUml draws class diagrams of selected models to help to recognize their attributes and relations.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -30,13 +36,15 @@ Execute the activerecord_uml command with name of model classes.
 Then the activerecord_uml outputs HTML text includes class diagrams of specified model classes. 
 
 For MacOs, I recommend to use the activerecord_uml with [browser](https://gist.github.com/defunkt/318247) command.
-Like this:
+For example:
+
+Install browser with Homebrew.
 
 ```
 $ brew install browser
 ```
 
-then
+And then execute:
 
 ```
 activerecord_uml User | browser
