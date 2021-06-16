@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "erb"
 require_relative "activerecord_uml/version"
 require_relative "activerecord_uml/diagram_drawer"
 
