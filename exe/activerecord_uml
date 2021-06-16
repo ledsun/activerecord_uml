@@ -1,7 +1,8 @@
 #! /usr/bin/env ruby
-require "activerecord_uml"
 
-require(File.join(Dir.pwd, "config/application"))
-Rails.application.require_environment!
+activerecord_uml = File.join __dir__,"../lib/activerecord_uml"
+ruby_script = "require \"#{activerecord_uml}\"; ActiverecordUml.draw"
+rails = File.join Dir.pwd,"bin/rails"
+rails_runner_command = "echo '#{ruby_script}' | #{rails} runner - #{ARGV.join ' '}"
 
-ActiverecordUml.draw
+system rails_runner_command
