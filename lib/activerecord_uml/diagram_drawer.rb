@@ -47,8 +47,13 @@ EOF
         method_parameters = @class_name.new.method(m)
                                        .parameters
                                        .filter { |a| a[0] == :req }
-                                       .map { |a| a[1] }.join(", ")
-        [m.to_s, method_parameters]
+                                       .map { |a| a[1] }
+
+        if method_parameters.length > 3
+          method_parameters = method_parameters.slice(0, 3).append("...")
+        end
+
+        [m.to_s, method_parameters.join(", ")]
       end
     end
   end
