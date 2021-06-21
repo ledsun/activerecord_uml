@@ -28,11 +28,11 @@ EOF
 
     def relations
       @class_name.reflect_on_all_associations(:belongs_to).map do |a|
-        "#{a.class_name} --* #{@class_name}"
+        "#{a.class_name} --* #{@class_name}#{label_for a}"
       end.concat(@class_name.reflect_on_all_associations(:has_many).map do |a|
-        "#{@class_name} --* #{a.class_name}"
+        "#{@class_name} --* #{a.class_name}#{label_for a}"
       end).concat(@class_name.reflect_on_all_associations(:has_one).map do |a|
-        "#{@class_name} --* #{a.class_name}"
+        "#{@class_name} --* #{a.class_name}#{label_for a}"
       end)
     end
 
@@ -55,6 +55,10 @@ EOF
 
         [m.to_s, method_parameters.join(", ")]
       end
+    end
+
+    def label_for(association)
+      association.class_name != association.name.to_s.classify ? " : #{association.name.to_s.classify}" : ''
     end
   end
 end
