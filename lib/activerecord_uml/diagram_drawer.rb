@@ -28,11 +28,11 @@ EOF
 
     def relations
       @class_name.reflect_on_all_associations(:belongs_to).map do |a|
-        "#{a.name.to_s.classify} --* #{@class_name}"
+        "#{a.class_name} --* #{@class_name}"
       end.concat(@class_name.reflect_on_all_associations(:has_many).map do |a|
-        "#{@class_name} --* #{a.name.to_s.classify}"
+        "#{@class_name} --* #{a.class_name}"
       end).concat(@class_name.reflect_on_all_associations(:has_one).map do |a|
-        "#{@class_name} --* #{a.name.to_s.classify}"
+        "#{@class_name} --* #{a.class_name}"
       end)
     end
 
