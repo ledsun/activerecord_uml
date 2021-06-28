@@ -30,7 +30,16 @@ EOF
       @class_name.reflect_on_all_associations(:belongs_to).map do |a|
         "#{a.class_name} --* #{@class_name}#{label_for a}"
       end.concat(@class_name.reflect_on_all_associations(:has_many).map do |a|
-        "#{@class_name} --* #{a.class_name}#{label_for a}"
+        if a.is_a? ActiveRecord::Reflection::ThroughReflection
+          if a.source_reflection
+            # If a source association is specified, the class name of the source association is displayed.
+            "#{@class_name} *--* #{a.source_reflection.class_name}#{label_for a}"
+          else
+            "#{@class_name} *--* #{a.class_name}#{label_for a}"
+          end
+        else
+          "#{@class_name} --* #{a.class_name}#{label_for a}"
+        end
       end).concat(@class_name.reflect_on_all_associations(:has_one).map do |a|
         "#{@class_name} --* #{a.class_name}#{label_for a}"
       end)
@@ -58,7 +67,7 @@ EOF
     end
 
     def label_for(association)
-      association.class_name != association.name.to_s.classify ? " : #{association.name.to_s.classify}" : ''
+      association.class_name != association.name.to_s.classify ? " : #{association.name.to_s.classify}" : ""
     end
   end
 end
