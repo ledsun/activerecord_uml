@@ -10,17 +10,7 @@ ActiverecordUml draws class diagrams of selected models to help to recognize the
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'activerecord_uml'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
+install it yourself as:
 
     $ gem install activerecord_uml
 
