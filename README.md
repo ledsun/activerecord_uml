@@ -48,6 +48,17 @@ activerecord_uml User | browser
 
 Open the class diagrams with the browser immediately.
 
+### activerecord_relations
+
+If you want to see the complex relationships between classes, you can use the activecord_relations command.
+
+```
+activerecord_relations User Book Review
+```
+
+This command will only show the relationships between the specified classes.
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake ` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
