@@ -66,9 +66,5 @@ EOF
         [m.to_s, method_parameters.join(", ")]
       end
     end
-
-    def label_for(association)
-      association.class_name != association.name.to_s.classify ? " : #{association.name.to_s.classify}" : ""
-    end
   end
 end
