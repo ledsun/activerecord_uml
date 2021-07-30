@@ -1,4 +1,5 @@
 require "erb"
+require_relative "./relation.rb"
 
 module ActiverecordUml
   class DiagramDrawer
@@ -28,20 +29,20 @@ EOF
 
     def relations
       @class_name.reflect_on_all_associations(:belongs_to).map do |a|
-        "#{a.class_name} --* #{@class_name}#{label_for a}"
+        Relation.new(a.class_name, "--*", @class_name, a).to_s
       end.concat(@class_name.reflect_on_all_associations(:has_many).map do |a|
         if a.is_a? ActiveRecord::Reflection::ThroughReflection
           if a.source_reflection
             # If a source association is specified, the class name of the source association is displayed.
-            "#{@class_name} *--* #{a.source_reflection.class_name}#{label_for a}"
+            Relation.new(@class_name, '*--*', a.source_reflection.class_name, a).to_s
           else
-            "#{@class_name} *--* #{a.class_name}#{label_for a}"
+            Relation.new(@class_name, '*--*', a.class_name, a).to_s
           end
         else
-          "#{@class_name} --* #{a.class_name}#{label_for a}"
+          Relation.new(@class_name, '--*', a.class_name, a).to_s
         end
       end).concat(@class_name.reflect_on_all_associations(:has_one).map do |a|
-        "#{@class_name} --* #{a.class_name}#{label_for a}"
+        Relation.new(@class_name, '--*', a.class_name, a).to_s
       end)
     end
 
