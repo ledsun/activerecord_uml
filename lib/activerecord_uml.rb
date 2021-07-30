@@ -4,7 +4,7 @@ require_relative "activerecord_uml/version"
 require_relative "activerecord_uml/diagram_drawer"
 
 module ActiverecordUml
-  def self.draw
+  def self.draw(relation_only = false)
     html = <<EOF
 <html>
   <body>
@@ -28,9 +28,10 @@ EOF
 
     html_template = ERB.new html, nil, "<>"
     classes = ARGV.map { |model_name| DiagramDrawer.new(model_name) }
-    puts html_template.result_with_hash class_diagrams: classes.map { |c| c.class_diagram },
+    puts html_template.result_with_hash class_diagrams: relation_only ? [] : classes.map { |c| c.class_diagram },
                                         relations: classes.map { |c| c.relations }
                                                           .flatten
+                                                          .select { |r| r.belongs_to?(ARGV) }
                                                           .map(&:to_s)
                                                           .uniq
   end
