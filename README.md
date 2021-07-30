@@ -25,7 +25,13 @@ activerecord_uml User Book Review
 Execute the activerecord_uml command with name of model classes.
 Then the activerecord_uml outputs HTML text includes class diagrams of specified model classes. 
 
-For MacOs, I recommend to use the activerecord_uml with [browser](https://gist.github.com/defunkt/318247) command.
+For macOS, You can see the diagram:
+```
+activerecord_uml User Book Review > temp.html
+open temp.html
+```
+
+I recommend to use the activerecord_uml with [browser](https://gist.github.com/defunkt/318247) command.
 For example:
 
 Install browser with Homebrew.
