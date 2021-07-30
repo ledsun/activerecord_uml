@@ -29,6 +29,6 @@ EOF
     html_template = ERB.new html, nil, "<>"
     classes = ARGV.map { |model_name| DiagramDrawer.new(model_name) }
     puts html_template.result_with_hash class_diagrams: classes.map { |c| c.class_diagram },
-                                        relations: classes.map { |c| c.relations }.flatten.uniq
+                                        relations: classes.map { |c| c.relations }.flatten.map(&:to_s).uniq
   end
 end
