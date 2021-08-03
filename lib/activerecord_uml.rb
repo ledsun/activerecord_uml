@@ -7,12 +7,15 @@ module ActiverecordUml
   class << self
     def draw
       classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
-      puts html_template.result_with_hash class_diagrams: options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram },
-                                          relations: classes.map { |c| c.relations }
-                                                            .flatten
-                                                            .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes) : true }
-                                                            .map(&:to_s)
-                                                            .uniq
+      params = {
+        class_diagrams: options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram },
+        relations: classes.map { |c| c.relations }
+                          .flatten
+                          .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes) : true }
+                          .map(&:to_s)
+                          .uniq,
+      }
+      puts html_template.result_with_hash params
     end
 
     private
