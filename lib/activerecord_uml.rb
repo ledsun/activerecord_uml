@@ -7,8 +7,6 @@ module ActiverecordUml
   class << self
     def draw(relation_only = false)
       target_classes = ARGV.select { |arg| !arg.start_with?("--") }
-      options = Set.new ARGV.select { |arg| arg.start_with?("--") }
-                            .map { |arg| arg.gsub(/^--/, "").tr("-", "_").to_sym }
 
       if relation_only
         options << :relation_only
@@ -23,7 +21,14 @@ module ActiverecordUml
                                                             .uniq
     end
 
-    private def html_template
+    private
+
+    def options
+      Set.new ARGV.select { |arg| arg.start_with?("--") }
+                  .map { |arg| arg.gsub(/^--/, "").tr("-", "_").to_sym }
+    end
+
+    def html_template
       html = <<EOF
 <html>
   <body>
