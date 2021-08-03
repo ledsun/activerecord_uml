@@ -4,20 +4,20 @@ require_relative "activerecord_uml/version"
 require_relative "activerecord_uml/diagram_drawer"
 
 module ActiverecordUml
-  def self.draw(relation_only = false)
+  class << self
+    def draw(relation_only = false)
+      target_classes = ARGV.select { |arg| !arg.start_with?("--") }
+      classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
+      puts html_template.result_with_hash class_diagrams: relation_only ? [] : classes.map { |c| c.class_diagram },
+                                          relations: classes.map { |c| c.relations }
+                                                            .flatten
+                                                            .select { |r| relation_only ? r.belongs_to?(target_classes) : true }
+                                                            .map(&:to_s)
+                                                            .uniq
+    end
 
-    target_classes = ARGV.select { |arg| !arg.start_with?('--') }
-    classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
-    puts html_template.result_with_hash class_diagrams: relation_only ? [] : classes.map { |c| c.class_diagram },
-                                        relations: classes.map { |c| c.relations }
-                                                          .flatten
-                                                          .select { |r| relation_only ? r.belongs_to?(target_classes) : true }
-                                                          .map(&:to_s)
-                                                          .uniq
-  end
-
-  def self.html_template
-    html = <<EOF
+    private def html_template
+      html = <<EOF
 <html>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -38,6 +38,7 @@ classDiagram
 </html>
 EOF
 
-    ERB.new html, nil, "<>"
+      ERB.new html, nil, "<>"
+    end
   end
 end
