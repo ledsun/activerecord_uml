@@ -6,8 +6,6 @@ require_relative "activerecord_uml/diagram_drawer"
 module ActiverecordUml
   class << self
     def draw
-      target_classes = ARGV.select { |arg| !arg.start_with?("--") }
-
       classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
       puts html_template.result_with_hash class_diagrams: options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram },
                                           relations: classes.map { |c| c.relations }
@@ -18,6 +16,10 @@ module ActiverecordUml
     end
 
     private
+
+    def target_classes
+      ARGV.select { |arg| !arg.start_with?("--") }
+    end
 
     def options
       Set.new ARGV.select { |arg| arg.start_with?("--") }
