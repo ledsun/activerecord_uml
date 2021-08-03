@@ -17,7 +17,7 @@ EOF
       @klass = klass
     end
 
-    def class_diagram
+    def diagram
       class_template.result_with_hash klass: @klass, methods: methods
     end
 

@@ -17,7 +17,7 @@ module ActiverecordUml
     private
 
     def classes
-      options.include?(:relation_only) ? [] : target_classes.map { |klass| ClassDrawer.new(klass).class_diagram }
+      options.include?(:relation_only) ? [] : target_classes.map { |klass| ClassDrawer.new(klass).diagram }
     end
 
     def relations
