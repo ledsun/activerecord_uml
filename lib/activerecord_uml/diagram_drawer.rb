@@ -14,13 +14,8 @@ class <%= class_name %> {
 }
 EOF
 
-    def initialize(model_name)
-      begin
-        @class_name = Object.const_get model_name
-      rescue NameError
-        STDERR.puts "#{model_name}というクラスがみつかりません"
-        raise
-      end
+    def initialize(class_name)
+      @class_name = class_name
     end
 
     def class_diagram

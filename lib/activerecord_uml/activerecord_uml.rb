@@ -22,17 +22,23 @@ module ActiverecordUml
     def relations
       classes.map { |c| c.relations }
              .flatten
-             .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes) : true }
+             .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes.map(&:name)) : true }
              .map(&:to_s)
              .uniq
     end
 
     def classes
-      target_classes.map { |model_name| DiagramDrawer.new(model_name) }
+      target_classes.map { |klass| DiagramDrawer.new(klass) }
     end
 
     def target_classes
       @args.select { |arg| !arg.start_with?("--") }
+           .map do |model_name|
+        Object.const_get model_name
+      rescue NameError
+        STDERR.puts "#{model_name}というクラスがみつかりません"
+        raise
+      end
     end
 
     def options
