@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require "erb"
 require_relative "diagram_drawer"
+require_relative "relation_drawer"
 
 module ActiverecordUml
   class ActiverecordUml
@@ -20,7 +21,7 @@ module ActiverecordUml
     end
 
     def relations
-      classes.map { |c| c.relations }
+      target_classes.map { |c| RelationDrawer.new(c).relations }
              .flatten
              .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes.map(&:name)) : true }
              .map(&:to_s)

@@ -1,5 +1,4 @@
 require "erb"
-require_relative "./relation_drawer"
 
 module ActiverecordUml
   class DiagramDrawer
@@ -20,10 +19,6 @@ EOF
 
     def class_diagram
       class_template.result_with_hash klass: @klass, methods: methods
-    end
-
-    def relations
-      RelationDrawer.new(@klass).relations
     end
 
     private
