@@ -6,19 +6,27 @@ require_relative "activerecord_uml/diagram_drawer"
 module ActiverecordUml
   class << self
     def draw
-      classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
-      params = {
-        class_diagrams: options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram },
-        relations: classes.map { |c| c.relations }
-                          .flatten
-                          .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes) : true }
-                          .map(&:to_s)
-                          .uniq,
-      }
-      puts html_template.result_with_hash params
+      puts html_template.result_with_hash class_diagrams: class_diagrams,
+                                          relations: relations
     end
 
     private
+
+    def class_diagrams
+      options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram }
+    end
+
+    def relations
+      classes.map { |c| c.relations }
+             .flatten
+             .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes) : true }
+             .map(&:to_s)
+             .uniq
+    end
+
+    def classes
+      target_classes.map { |model_name| DiagramDrawer.new(model_name) }
+    end
 
     def target_classes
       ARGV.select { |arg| !arg.start_with?("--") }
