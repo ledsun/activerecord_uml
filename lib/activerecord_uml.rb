@@ -7,11 +7,17 @@ module ActiverecordUml
   class << self
     def draw(relation_only = false)
       target_classes = ARGV.select { |arg| !arg.start_with?("--") }
+      options = Set.new ARGV.select { |arg| arg.start_with?("--") }.map { |arg| arg.gsub(/^--/, '')}
+
+      if relation_only
+        options << "relation_only"
+      end
+
       classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
-      puts html_template.result_with_hash class_diagrams: relation_only ? [] : classes.map { |c| c.class_diagram },
+      puts html_template.result_with_hash class_diagrams: options.include?("relation-only") ? [] : classes.map { |c| c.class_diagram },
                                           relations: classes.map { |c| c.relations }
                                                             .flatten
-                                                            .select { |r| relation_only ? r.belongs_to?(target_classes) : true }
+                                                            .select { |r| options.include?("relation-only") ? r.belongs_to?(target_classes) : true }
                                                             .map(&:to_s)
                                                             .uniq
     end
