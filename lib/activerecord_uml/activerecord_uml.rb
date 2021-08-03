@@ -33,12 +33,7 @@ module ActiverecordUml
 
     def target_classes
       @args.select { |arg| !arg.start_with?("--") }
-           .map do |model_name|
-        Object.const_get model_name
-      rescue NameError
-        STDERR.puts "#{model_name}というクラスがみつかりません"
-        raise
-      end
+           .map { |model_name| Object.const_get model_name }
     end
 
     def options
