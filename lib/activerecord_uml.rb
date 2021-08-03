@@ -5,12 +5,8 @@ require_relative "activerecord_uml/diagram_drawer"
 
 module ActiverecordUml
   class << self
-    def draw(relation_only = false)
+    def draw
       target_classes = ARGV.select { |arg| !arg.start_with?("--") }
-
-      if relation_only
-        options << :relation_only
-      end
 
       classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
       puts html_template.result_with_hash class_diagrams: options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram },
