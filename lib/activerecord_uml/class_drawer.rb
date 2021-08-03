@@ -1,7 +1,7 @@
 require "erb"
 
 module ActiverecordUml
-  class DiagramDrawer
+  class ClassDrawer
     CLASS_TEMPLATE = <<EOF
 class <%= klass.name %> {
 <% klass.columns.each do |c| %>

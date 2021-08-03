@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require "erb"
-require_relative "diagram_drawer"
+require_relative "class_drawer"
 require_relative "relation_drawer"
 
 module ActiverecordUml
@@ -17,7 +17,7 @@ module ActiverecordUml
     private
 
     def classes
-      options.include?(:relation_only) ? [] : target_classes.map { |klass| DiagramDrawer.new(klass).class_diagram }
+      options.include?(:relation_only) ? [] : target_classes.map { |klass| ClassDrawer.new(klass).class_diagram }
     end
 
     def relations
