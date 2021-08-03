@@ -10,26 +10,22 @@ module ActiverecordUml
     end
 
     def draw
-      puts html_template.result_with_hash class_diagrams: class_diagrams,
+      puts html_template.result_with_hash classes: classes,
                                           relations: relations
     end
 
     private
 
-    def class_diagrams
-      options.include?(:relation_only) ? [] : classes.map { |c| c.class_diagram }
+    def classes
+      options.include?(:relation_only) ? [] : target_classes.map { |klass| DiagramDrawer.new(klass).class_diagram }
     end
 
     def relations
       target_classes.map { |c| RelationDrawer.new(c).relations }
-             .flatten
-             .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes.map(&:name)) : true }
-             .map(&:to_s)
-             .uniq
-    end
-
-    def classes
-      target_classes.map { |klass| DiagramDrawer.new(klass) }
+        .flatten
+        .select { |r| options.include?(:relation_only) ? r.belongs_to?(target_classes.map(&:name)) : true }
+        .map(&:to_s)
+        .uniq
     end
 
     def target_classes
@@ -52,7 +48,7 @@ module ActiverecordUml
     <div class="mermaid">
 
 classDiagram
-<% class_diagrams.each do |d| %>
+<% classes.each do |d| %>
   <%= d %>
 <% end %>
 <% relations.each do |r| %>
