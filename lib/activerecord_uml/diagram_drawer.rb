@@ -4,8 +4,8 @@ require_relative "./relation_drawer"
 module ActiverecordUml
   class DiagramDrawer
     CLASS_TEMPLATE = <<EOF
-class <%= class_name %> {
-<% class_name.columns.each do |c| %>
+class <%= klass.name %> {
+<% klass.columns.each do |c| %>
   <%= sprintf("%8s %s", c.type, c.name) %>
 <% end %>
 <% methods.each do |m, parameters| %>
@@ -14,16 +14,16 @@ class <%= class_name %> {
 }
 EOF
 
-    def initialize(class_name)
-      @class_name = class_name
+    def initialize(klass)
+      @klass = klass
     end
 
     def class_diagram
-      class_template.result_with_hash class_name: @class_name, methods: methods
+      class_template.result_with_hash klass: @klass, methods: methods
     end
 
     def relations
-      RelationDrawer.new(@class_name).relations
+      RelationDrawer.new(@klass).relations
     end
 
     private
@@ -33,11 +33,11 @@ EOF
     end
 
     def methods
-      @class_name.public_instance_methods(false).sort.map do |m|
-        method_parameters = @class_name.new.method(m)
-                                       .parameters
-                                       .filter { |a| a[0] == :req }
-                                       .map { |a| a[1] }
+      @klass.public_instance_methods(false).sort.map do |m|
+        method_parameters = @klass.new.method(m)
+                                  .parameters
+                                  .filter { |a| a[0] == :req }
+                                  .map { |a| a[1] }
 
         if method_parameters.length > 3
           method_parameters = method_parameters.slice(0, 3).append("...")
