@@ -31,7 +31,7 @@ EOF
     puts html_template.result_with_hash class_diagrams: relation_only ? [] : classes.map { |c| c.class_diagram },
                                         relations: classes.map { |c| c.relations }
                                                           .flatten
-                                                          .select { |r| r.belongs_to?(ARGV) }
+                                                          .select { |r| relation_only ? r.belongs_to?(ARGV) : true }
                                                           .map(&:to_s)
                                                           .uniq
   end
