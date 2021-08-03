@@ -27,11 +27,12 @@ classDiagram
 EOF
 
     html_template = ERB.new html, nil, "<>"
-    classes = ARGV.map { |model_name| DiagramDrawer.new(model_name) }
+    target_classes = ARGV.select { |arg| !arg.start_with?('--') }
+    classes = target_classes.map { |model_name| DiagramDrawer.new(model_name) }
     puts html_template.result_with_hash class_diagrams: relation_only ? [] : classes.map { |c| c.class_diagram },
                                         relations: classes.map { |c| c.relations }
                                                           .flatten
-                                                          .select { |r| relation_only ? r.belongs_to?(ARGV) : true }
+                                                          .select { |r| relation_only ? r.belongs_to?(target_classes) : true }
                                                           .map(&:to_s)
                                                           .uniq
   end
